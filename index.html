@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="slick/slick.css">
+    <link rel="stylesheet" href="slick/slick-theme.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 mx-auto bg-secondary p-4 mt-3">
+                <form>
+                    <div class="row mb-3">
+                        <h2 class="text-center text-white">Discount Calculator</h2>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="total_amount" class="col-sm-4 text-white">Total Amount</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="total_amount">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="disocunt_type" class="col-sm-4 text-white">Discount Type</label>
+                        <div class="col-sm-8">
+                            <select id="disocunt_type" class="form-control">
+                                <option selected>Select Discount Type</option>
+                                <option value="parcent">Percentage (%) Discount</option>
+                                <option value="flat">Flat Discount</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="discount_amount" class="col-sm-4 text-white">Discount Amount</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="discount_amount">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 d-none" id="total_discount_row">
+                        <label for="total_discount" class="col-sm-4 text-white">Total Discount</label>
+                        <div class="col-sm-8">
+                            <input type="number" disabled class="form-control" id="total_discount">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="total" class="col-sm-4 text-white">Total</label>
+                        <div class="col-sm-8">
+                            <input type="number" disabled class="form-control" id="total">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" id="calculate">Calculate</button>
+                            <button type="button" class="btn btn-danger" id="reset">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="our-slider">
+                    <div><img src="images/1.jpg" class="img-fluid" alt=""></div>
+                    <div><img src="images/2.jpg" class="img-fluid" alt=""></div>
+                    <div><img src="images/3.jpg" class="img-fluid" alt=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- slider -->
+    <!-- slick slider, owl-carousel, bootstrap carousel -->
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="slick/slick.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('.our-slider').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                fade: true,
+                autoplay: true,
+                cssEase: 'linear',
+                autoplaySpeed: 500,
+                arrows: true,
+                draggable: false,
+            });
+        });
+
+        $("#disocunt_type").change(function () {
+            var discount_type = $("#disocunt_type").val();
+
+            if (discount_type == 'parcent') {
+                $("#total_discount_row").removeClass('d-none');
+            } else {
+                $("#total_discount_row").addClass('d-none');
+            }
+        });
+
+
+        $("#calculate").click(function (event) {
+            event.preventDefault();
+
+            var x = $("#total_amount").val();
+            var total_amount = parseFloat(x);
+
+            var y = $("#discount_amount").val();
+            var discount_amount = parseFloat(y);
+
+            var disocunt_type = $("#disocunt_type").val();
+
+            if (disocunt_type == "parcent") {
+                var total_discount = (total_amount * discount_amount) / 100;
+                var total2 = total_amount - (total_amount * discount_amount / 100);
+                $("#total_discount").val(total_discount);
+                $("#total").val(total2);
+
+            } else if (disocunt_type == "flat") {
+                var total = total_amount - discount_amount;
+                $("#total").val(total);
+            }
+        })
+
+        $("#reset").click(function (event) {
+            event.preventDefault();
+            $("#total_amount").val("");
+            $("#discount_amount").val("");
+            $("#total").val("");
+            $("#total_discount").val("");
+            $("#total_discount_row").addClass('d-none');
+            $("#disocunt_type option:first").prop("selected", "true");
+        })
+
+    </script>
+</body>
+
+</html>
